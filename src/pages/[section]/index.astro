@@ -1,0 +1,39 @@
+---
+import Layout from '../../layouts/Layout.astro'
+import { sections } from '../../lib/sections.js'
+import { getCollection } from 'astro:content'
+
+export async function getStaticPaths() {
+  return sections.map((s) => ({ params: { section: s.slug } }))
+}
+
+const { section } = Astro.params
+const meta = sections.find((s) => s.slug === section)
+const articles = (await getCollection('articles', (a) => a.data.section === section))
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+---
+<Layout title={meta.name + ' — Bananapedia'} description={meta.tagline}>
+  <main class="max-w-4xl mx-auto px-6 py-12">
+    <a href="/" class="text-yellow-700 font-bold text-sm hover:underline">← Bananapedia home</a>
+    <h1 class="text-4xl font-black text-yellow-950 mt-4 mb-2">
+      {meta.emoji} {meta.name}
+    </h1>
+    <p class="text-yellow-900/80 mb-10">{meta.tagline}</p>
+
+    {articles.length === 0 ? (
+      <p class="text-gray-500">Articles coming soon.</p>
+    ) : (
+      <div class="space-y-4">
+        {articles.map((a) => (
+          <a
+            href={'/' + section + '/' + a.id + '/'}
+            class="block bg-white rounded-2xl p-6 border-2 border-yellow-200 hover:border-yellow-400 hover:shadow-lg transition"
+          >
+            <h2 class="text-2xl font-bold text-yellow-950 mb-1">{a.data.title}</h2>
+            <p class="text-gray-600">{a.data.description}</p>
+          </a>
+        ))}
+      </div>
+    )}
+  </main>
+</Layout>

@@ -1,0 +1,40 @@
+---
+import Layout from '../layouts/Layout.astro'
+import { sections } from '../lib/sections.js'
+import { getCollection } from 'astro:content'
+
+const articles = await getCollection('articles')
+const countBySection = {}
+for (const a of articles) {
+  countBySection[a.data.section] = (countBySection[a.data.section] || 0) + 1
+}
+---
+<Layout>
+  <main class="max-w-6xl mx-auto px-6 py-12">
+    <div class="text-center mb-12">
+      <h1 class="text-5xl sm:text-6xl font-black text-yellow-950 mb-4">
+        🍌 Bananapedia
+      </h1>
+      <p class="text-xl text-yellow-900/80 max-w-2xl mx-auto">
+        The whole bunch, in one place. History, science, culture, music, media,
+        merch, jokes, and facts — everything about Earth's favorite fruit.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      {sections.map((s) => (
+        <a
+          href={'/' + s.slug + '/'}
+          class="bg-white rounded-2xl p-6 border-2 border-yellow-200 hover:border-yellow-400 hover:shadow-lg transition flex flex-col"
+        >
+          <span class="text-4xl mb-3">{s.emoji}</span>
+          <h2 class="text-xl font-bold text-yellow-950 mb-1">{s.name}</h2>
+          <p class="text-sm text-gray-600 flex-1">{s.tagline}</p>
+          <p class="text-xs font-bold text-yellow-600 mt-4">
+            {countBySection[s.slug] || 0} article{(countBySection[s.slug] || 0) === 1 ? '' : 's'} →
+          </p>
+        </a>
+      ))}
+    </div>
+  </main>
+</Layout>
