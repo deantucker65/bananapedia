@@ -1,2 +1,45 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
+
+/* ---------- Bananapedia motion ---------- */
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+  50%      { transform: translateY(-18px) rotate(var(--rot, 0deg)); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(0); }
+  25%      { transform: rotate(-14deg); }
+  75%      { transform: rotate(14deg); }
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(18px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Gentle bobbing for decorative bananas */
+.float { animation: float 6s ease-in-out infinite; will-change: transform; }
+
+/* Entrance animation — add inline `style="animation-delay:.1s"` to stagger */
+.fade-in-up { opacity: 0; animation: fadeInUp 0.6s ease-out forwards; }
+
+/* Card hover: lift + slight tilt */
+.card-lift { transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease; }
+.card-lift:hover { transform: translateY(-6px) rotate(-1deg) scale(1.02); }
+
+/* Emoji wiggle when its card/link is hovered */
+.wiggle { display: inline-block; }
+.card-lift:hover .wiggle,
+.wiggle-trigger:hover .wiggle { animation: wiggle 0.5s ease-in-out; }
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+  .float,
+  .fade-in-up { animation: none !important; }
+  .fade-in-up { opacity: 1 !important; }
+  .card-lift:hover { transform: none; }
+  .card-lift:hover .wiggle,
+  .wiggle-trigger:hover .wiggle { animation: none; }
+}

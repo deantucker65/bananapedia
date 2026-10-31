@@ -15,8 +15,8 @@ const articles = (await getCollection('articles', (a) => a.data.section === sect
 <Layout title={meta.name + ' — Bananapedia'} description={meta.tagline}>
   <main class="max-w-4xl mx-auto px-6 py-12">
     <a href="/" class="text-yellow-700 font-bold text-sm hover:underline">← Bananapedia home</a>
-    <h1 class="text-4xl font-black text-yellow-950 mt-4 mb-2">
-      {meta.emoji} {meta.name}
+    <h1 class="wiggle-trigger text-4xl font-black text-yellow-950 mt-4 mb-2">
+      <span class="wiggle">{meta.emoji}</span> {meta.name}
     </h1>
     <p class="text-yellow-900/80 mb-10">{meta.tagline}</p>
 
@@ -24,10 +24,11 @@ const articles = (await getCollection('articles', (a) => a.data.section === sect
       <p class="text-gray-500">Articles coming soon.</p>
     ) : (
       <div class="space-y-4">
-        {articles.map((a) => (
+        {articles.map((a, i) => (
           <a
             href={'/' + section + '/' + a.id + '/'}
-            class="block bg-white rounded-2xl p-6 border-2 border-yellow-200 hover:border-yellow-400 hover:shadow-lg transition"
+            class="card-lift fade-in-up block bg-white rounded-2xl p-6 border-2 border-yellow-200 hover:border-yellow-400 hover:shadow-lg"
+            style={`animation-delay:${i * 0.07}s`}
           >
             <h2 class="text-2xl font-bold text-yellow-950 mb-1">{a.data.title}</h2>
             <p class="text-gray-600">{a.data.description}</p>

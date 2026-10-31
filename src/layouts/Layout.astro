@@ -12,13 +12,21 @@ const { title = 'Bananapedia', description = 'All things bananas: history, scien
     <meta name="description" content={description} />
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍌</text></svg>" />
   </head>
-  <body class="bg-yellow-50 text-gray-900 min-h-screen flex flex-col">
+  <body class="bg-yellow-50 text-gray-900 min-h-screen flex flex-col relative overflow-x-hidden">
+    <!-- Decorative floating bananas (site-wide background) -->
+    <div aria-hidden="true" class="pointer-events-none fixed inset-0 -z-10 hidden sm:block select-none">
+      <span class="float absolute left-[4%] top-[18%] text-6xl opacity-10" style="--rot:-18deg; animation-delay:0s">🍌</span>
+      <span class="float absolute right-[6%] top-[30%] text-7xl opacity-10" style="--rot:14deg; animation-delay:1.2s">🍌</span>
+      <span class="float absolute left-[12%] bottom-[12%] text-5xl opacity-10" style="--rot:8deg; animation-delay:2.4s">🍌</span>
+      <span class="float absolute right-[14%] bottom-[20%] text-6xl opacity-10" style="--rot:-10deg; animation-delay:0.6s">🍌</span>
+    </div>
+
     <nav class="bg-yellow-400 border-b-4 border-yellow-500 shadow-sm">
       <div class="max-w-6xl mx-auto px-6 py-4 flex flex-wrap items-center justify-between gap-x-8 gap-y-2">
-        <a href="/" class="text-2xl font-black tracking-tight text-yellow-950">🍌 Bananapedia</a>
+        <a href="/" class="wiggle-trigger text-2xl font-black tracking-tight text-yellow-950"><span class="wiggle">🍌</span> Bananapedia</a>
         <div class="flex flex-wrap gap-x-5 gap-y-1 text-sm font-bold text-yellow-950">
           {sections.map((s) => (
-            <a href={'/' + s.slug + '/'} class="hover:underline">{s.emoji} {s.name}</a>
+            <a href={'/' + s.slug + '/'} class="wiggle-trigger hover:underline"><span class="wiggle">{s.emoji}</span> {s.name}</a>
           ))}
         </div>
       </div>
@@ -27,7 +35,7 @@ const { title = 'Bananapedia', description = 'All things bananas: history, scien
       <slot />
     </div>
     <footer class="mt-16 py-8 text-center text-sm text-yellow-800/70">
-      Bananapedia — the whole bunch, in one place. 🍌
+      <span class="wiggle-trigger">Bananapedia — the whole bunch, in one place. <span class="wiggle">🍌</span></span>
     </footer>
   </body>
 </html>
